@@ -6,20 +6,24 @@ export async function SportyBetBooking() {
   const browser = await puppeteer.launch({ headless: false });
 
   const page = await browser.newPage();
-  await page.goto("https://www.sportybet.com/gh/m/", {
+
+  await page.goto( "https://www.sportybet.com/gh/m/",
+    {
     waitUntil: "networkidle0",
     timeout: 120000,
-  });
-  await page.waitForNavigation({
+    }
+  );
+  await page.waitForNavigation(
+    {
     waitUntil: "networkidle0",
     timeout: 120000,
-  });
-  console.log(page.url());
+    }
+  );
 
   // Wait for click on specific bet slips
-  console.log("done");
   await page.waitForFunction(
-    () => document.querySelector(".betslip-float-wrapper"),
+    () =>
+    document.querySelector( ".betslip-float-wrapper" ),
     { timeout: 3000 }
   );
   await page.waitForRequest((request) => request.url().includes("betslip"));
@@ -35,7 +39,7 @@ export async function SportyBetBooking() {
     const shareLink = `https://www.sportybet.com/?shareCode=${code}&c=gh`;
     return { code, shareLink };
   });
-
-  console.log("booking-code", bookingCode);
   await browser.close();
+  return bookingCode;
 }
+
